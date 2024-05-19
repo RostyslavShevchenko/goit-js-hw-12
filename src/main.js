@@ -22,7 +22,7 @@ iziToast.settings({
 let lightbox;
 let query = '';
 let page = 1;
-const perPage = 50;
+const perPage = 15;
 let images;
 
 form.addEventListener('submit', async (event) => {
