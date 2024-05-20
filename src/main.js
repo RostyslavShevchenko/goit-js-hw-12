@@ -19,7 +19,11 @@ iziToast.settings({
     close: false
 });
 
-let lightbox;
+let lightbox = new SimpleLightbox('.gallery a', {
+    captionsData: 'alt',
+    captionPosition: 'bottom',
+    captionDelay: 250
+});
 let query = '';
 let page = 1;
 const perPage = 15;
@@ -53,16 +57,7 @@ form.addEventListener('submit', async (event) => {
             loadMoreBtn.classList.remove('visually-hidden');
         }
         renderGallery(images.hits);
-
-        if (!lightbox) {
-            lightbox = new SimpleLightbox('.gallery a', {
-                captionsData: 'alt',
-                captionPosition: 'bottom',
-                captionDelay: 250
-            })
-        } else {
-            lightbox.refresh();
-        }
+        lightbox.refresh();
     } catch (error) {
         console.log(error);
     } finally {
@@ -77,11 +72,11 @@ loadMoreBtn.addEventListener('click', async () => {
     try {
         loadMoreBtn.classList.add('visually-hidden');
         showLoader();
-        lightbox.refresh();
 
         images = await fetchData(query, page, perPage);
         renderGallery(images.hits);
-
+        lightbox.refresh();
+        
         const galleryCard = document.querySelector('.gallery-item').getBoundingClientRect();
         const cardHeight = galleryCard.height;
         window.scrollBy({
